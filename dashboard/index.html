@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overseer — Agent Supervisor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <!-- Eye logo -->
+      <svg class="logo-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-label="Overseer">
+        <ellipse cx="11" cy="11" rx="10" ry="7" stroke="#3b82f6" stroke-width="1.5"/>
+        <circle cx="11" cy="11" r="3.5" fill="#3b82f6"/>
+        <circle cx="11" cy="11" r="1.5" fill="#0a0a0b"/>
+      </svg>
+      <div class="logo-wordmark">
+        <span class="logo-name">Overseer</span>
+        <span class="logo-badge">agent supervisor</span>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="status-pill" id="statusPill">
+        <span class="status-dot-sm" id="statusDot"></span>
+        <span id="statusText">Connecting…</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="kpi-chip">
+        <span class="kpi-val" id="hdrInterventions">0</span>
+        <span class="kpi-lbl">stops</span>
+      </div>
+      <div class="kpi-chip accent">
+        <span class="kpi-val" id="hdrTokensSaved">0</span>
+        <span class="kpi-lbl">tok saved</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Two-column layout -->
+  <main class="main">
+
+    <!-- Left: agent cards -->
+    <section class="agents-panel">
+      <div class="section-header">
+        <span class="section-label">Active Agents</span>
+        <span class="section-count" id="agentCount">—</span>
+      </div>
+      <div class="agents-list" id="agentsList">
+        <div class="empty-state">No agents running</div>
+      </div>
+    </section>
+
+    <!-- Right: stats + log -->
+    <section class="right-panel">
+
+      <!-- Stats strip -->
+      <div class="stats-strip">
+        <div class="stat-cell">
+          <div class="stat-n"   id="sumAgents">0</div>
+          <div class="stat-k">Agents</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-n g" id="sumHealthy">0</div>
+          <div class="stat-k">Healthy</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-n r" id="sumLooping">0</div>
+          <div class="stat-k">Looping</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-n d" id="sumDone">0</div>
+          <div class="stat-k">Done</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-n b" id="sumSaved">0</div>
+          <div class="stat-k">Tok Saved</div>
+        </div>
+      </div>
+
+      <!-- Log header -->
+      <div class="section-header" style="margin-top:0">
+        <span class="section-label">Event Log</span>
+        <button class="clear-btn" id="clearLog">Clear</button>
+      </div>
+
+      <!-- Log entries -->
+      <div class="log-wrap" id="eventLog">
+        <div class="log-empty">Waiting for events…</div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Intervention modal -->
+  <div class="modal-overlay" id="modalOverlay" style="display:none">
+    <div class="modal">
+      <div class="modal-head">
+        <span class="modal-title" id="modalTitle">Intervention Detail</span>
+        <button class="modal-x" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
