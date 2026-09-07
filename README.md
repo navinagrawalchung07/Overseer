@@ -6,9 +6,13 @@ Overseer runs alongside your agent pipeline. Every few seconds it reads each age
 
 ![Overseer catching a looping agent in real time](demo/overseer-demo.gif)
 
-> sonar-pro detecting a loop at **92% confidence** and injecting a corrective message — saving 6,500 tokens.
+> sonar-pro detecting a loop at **92% confidence** and injecting a corrective message. The model estimated ~6,500 tokens of waste avoided
+(an estimate, not a measurement — see Limitations).
 
-**[→ Live dashboard demo](https://www.perplexity.ai/computer/a/overseer-agent-supervisor-Fpp7YCwpTl66DZytcsLLqg)**
+**[→ Live dashboard](https://navinagrawalchung07.github.io/Overseer/)** — the dashboard UI, running in demo mode.
+The supervisor itself is a local process, so the hosted page replays a scripted
+agent run rather than driving a live backend. To see the real detection loop,
+run it locally (below).
 
 ---
 
@@ -118,7 +122,7 @@ overseer history     # show recent interventions
 ## Run the demo
 
 ```bash
-git clone https://github.com/yourusername/overseer
+git clone https://github.com/navinagrawalchung07/Overseer
 cd overseer
 pip install -e .
 cp .env.example .env  # add your PERPLEXITY_API_KEY
@@ -173,6 +177,29 @@ Savings logged to ~/.overseer/history.json
 | `OVERSEER_POLL_INTERVAL` | `10` | Seconds between supervisor ticks |
 | `OVERSEER_CONFIDENCE` | `0.78` | Minimum confidence to trigger intervention |
 | `OVERSEER_PORT` | `7860` | Dashboard port |
+
+---
+
+## Limitations
+
+Honest accounting of where this prototype stands:
+
+- **"Tokens saved" is an estimate, not a measurement.** The number comes from the
+  model's own `tokens_wasted_estimate` field. Measuring it properly needs a
+  counterfactual — projecting the loop's observed burn rate, or A/B running the
+  same task with the supervisor on and off.
+- **No cooldown between interventions.** If an agent doesn't change behavior before
+  the next poll, the same window re-classifies and fires again.
+- **Detection cost scales with fleet size, not with incidents.** One model call per
+  agent per interval regardless of whether anything is wrong. A cheap repeat-detection
+  prefilter (`OVERSEER_HEURISTIC_REPEAT`) is configured but not yet wired up.
+- **Interventions are advisory.** Even `stop_and_restart` only writes a file; nothing
+  is force-killed. An agent that ignores interventions can't be stopped.
+- **File writes are not atomic**, and `intervention.json` is a single slot — a second
+  intervention overwrites an unconsumed first.
+- **No test suite yet.**
+- **The hosted dashboard runs in demo mode.** The supervisor is a local process, so
+  the GitHub Pages build replays a scripted agent run.
 
 ---
 

@@ -36,9 +36,9 @@ crewai = ["crewai>=0.28.0", "crewai-tools>=0.1.0"]
 dev    = ["pytest>=8.0", "httpx>=0.27.0"]
 
 [project.urls]
-Homepage   = "https://github.com/yourusername/overseer"
-Dashboard  = "https://www.perplexity.ai/computer/a/overseer-agent-supervisor-Fpp7YCwpTl66DZytcsLLqg"
-Issues     = "https://github.com/yourusername/overseer/issues"
+Homepage   = "https://github.com/navinagrawalchung07/Overseer"
+Dashboard  = "https://navinagrawalchung07.github.io/Overseer/"
+Issues     = "https://github.com/navinagrawalchung07/Overseer/issues"
 
 [project.scripts]
 overseer = "overseer.cli:cli"
